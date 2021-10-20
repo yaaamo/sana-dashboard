@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.sana.mapper.SanaNodesMapper">
+    
+    <resultMap type="SanaNodes" id="SanaNodesResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="dashboardAuth"    column="dashboard_auth"    />
+        <result property="apiEndpoint"    column="api_endpoint"    />
+        <result property="debugApiEndpoint"    column="debug_api_endpoint"    />
+        <result property="remark"    column="remark"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <sql id="selectSanaNodesVo">
+        select id, name, dashboard_auth, api_endpoint, debug_api_endpoint, remark, create_time from sana_nodes
+    </sql>
+
+    <select id="selectSanaNodesList" parameterType="SanaNodes" resultMap="SanaNodesResult">
+        <include refid="selectSanaNodesVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="dashboardAuth != null  and dashboardAuth != ''"> and dashboard_auth = #{dashboardAuth}</if>
+            <if test="apiEndpoint != null  and apiEndpoint != ''"> and api_endpoint = #{apiEndpoint}</if>
+            <if test="debugApiEndpoint != null  and debugApiEndpoint != ''"> and debug_api_endpoint = #{debugApiEndpoint}</if>
+        </where>
+    </select>
+    
+    <select id="selectSanaNodesById" parameterType="Long" resultMap="SanaNodesResult">
+        <include refid="selectSanaNodesVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertSanaNodes" parameterType="SanaNodes" useGeneratedKeys="true" keyProperty="id">
+        insert into sana_nodes
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">name,</if>
+            <if test="dashboardAuth != null">dashboard_auth,</if>
+            <if test="apiEndpoint != null">api_endpoint,</if>
+            <if test="debugApiEndpoint != null">debug_api_endpoint,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createTime != null">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">#{name},</if>
+            <if test="dashboardAuth != null">#{dashboardAuth},</if>
+            <if test="apiEndpoint != null">#{apiEndpoint},</if>
+            <if test="debugApiEndpoint != null">#{debugApiEndpoint},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createTime != null">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSanaNodes" parameterType="SanaNodes">
+        update sana_nodes
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name = #{name},</if>
+            <if test="dashboardAuth != null">dashboard_auth = #{dashboardAuth},</if>
+            <if test="apiEndpoint != null">api_endpoint = #{apiEndpoint},</if>
+            <if test="debugApiEndpoint != null">debug_api_endpoint = #{debugApiEndpoint},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSanaNodesById" parameterType="Long">
+        delete from sana_nodes where id = #{id}
+    </delete>
+
+    <delete id="deleteSanaNodesByIds" parameterType="String">
+        delete from sana_nodes where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>
