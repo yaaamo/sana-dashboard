@@ -63,7 +63,7 @@
                 },
                 {
                     field: 'mineStatus.work',
-                    title: 'status'
+                    title: 'working'
                 },
                  {
                     field: 'mineStatus.deposit',
@@ -113,11 +113,13 @@
         function numFormat(num){
             //console.log(num)
             let s = num.toString();
-            let t = s.substring(0,s.length-16)
+            let t = s.substring(0,s.length-9)
             if(t.length==0){
                 t = '0'
             }
-            return t;
+            let int = parseInt(t);
+
+            return (int/10000000).toFixed(7);
         }
 
         function unstake(id){
