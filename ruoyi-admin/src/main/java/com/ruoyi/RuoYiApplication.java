@@ -13,7 +13,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 @SpringBootApplication(exclude = { DataSourceAutoConfiguration.class })
 @ForestScan(basePackages = "com.ruoyi.sana.rmi")
 public class RuoYiApplication
-{  
+{
     public static void main(String[] args)
     {
         // System.setProperty("spring.devtools.restart.enabled", "false");
